@@ -48,7 +48,9 @@ class Marca (db.Model):
         return {
             "id": self.id,
             "marca": self.nombre_marca,
-            "descricpion":self.descripcion
+            "descricpion":self.descripcion,
+            "direccion":self.direccion,
+            "tipo_pago":self.tipo_pago
             # do not serialize the password, its a security breach
         }
 
@@ -60,6 +62,7 @@ class Producto (db.Model):
     descripcion = db.Column(db.String(250), unique=False, nullable=False)
     precio =  db.Column(db.Integer, unique=True, nullable=False)
     url_foto = db.Column(db.String(250), unique=True, nullable=True)
+    
     rel_user = db.relationship('User')
     rel_marca = db.relationship('Marca')
 
@@ -70,6 +73,8 @@ class Producto (db.Model):
         return {
             "id": self.id,
             "producto": self.nombre_producto,
+            "marca": self.marca,
             "descricpion":self.descripcion,
-            "precio": self.precio
+            "precio": self.precio,
+            "url_foto": self.url_foto
         }

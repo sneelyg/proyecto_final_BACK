@@ -63,7 +63,7 @@ def registro():
     body = request.get_json()
     #Primero veo que usuario no exista
     existe_mail = User.query.filter_by(email = body['email']).first()
-    if (existe is  not None):
+    if (existe_mail is  not None):
         return "El correo utilizado ya existe en la base de datos"
     
     existe_username = User.query.filter_by(username = body['username']).first()
@@ -122,7 +122,15 @@ def marcas_registro():
 
 @app.route ('/productos/registro', methods = ['POST'])
 def productos_registro():
-    return "Registrar Producto"
+    nuevo_producto = Producto()
+    nuevo_producto.vendedor = body['vendedor']
+    nuevo_producto.marca = body['marca']
+    nuevo_producto.nombre_producto = body['nombre_producto']
+    nuevo_producto.descripcion = body['descripcion']
+    nuevo_producto.precio = body['precio']
+    nuevo_producto.url_foto = body['url_foto']
+
+    return "Producto Registrado"
 
 @app.route ('/recuperar_clave', methods = ['POST'])
 def recuperar_clave():    
@@ -131,24 +139,36 @@ def recuperar_clave():
 
 @app.route('/marcas/<int:id_marca>', methods=['GET'])
 def una_marca(id_marca):
-    return "Una Marca"
+    una_marca = Marca.query.get(id_marca)
+    return jsonify(una_marca.serialize())
 
 @app.route('/productos/<int:id_producto>', methods=['GET'])
 def un_producto(id_producto):
-    return "Un Producto"
+    un_producto = Producto.query.get(id_producto)
+    return jsonify(un_producto.serialize())
 
 @app.route('/marcas', methods=['GET'])
 def todas_las_marcas():
-    return "Todas las  Marcas"
+    marcas = Marca.query.all()
+    marcas = list(map (lambda marca : marca.serialize(),  marcas))
+    return jsonify( marcas)
 
 @app.route('/productos', methods=['GET'])
 def todos_los__productos():
-    return "Todos los  Productos"
+    productos = Producto.query.all()
+    productos = list(map (lambda productos : productos.serialize(),  productos))
+    return jsonify( productos)
 
 
 @app.route('/productos/<int:id_producto>', methods=['DELETE'])
 def borrar_un_producto(id_producto):
-    return "Borrar Un Producto"
+    one = Producto.query.filter_by(id = id_producto).first() #first hace que sea el primer elemento , sino, el método filter_by entrega un Arreglo de resultados
+    if (one): 
+        db.session.delete(one)
+        db.session.commit()
+        return "Producto Eliminado"
+    else :
+        raise APIException("Personaje no existe en favoritos", status_code=404 )
 
 
 
