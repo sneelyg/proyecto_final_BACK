@@ -120,8 +120,26 @@ def marcas_registro():
         db.session.commit()
         return "Nueva Marca Creada " 
 
+        ###
+{
+"vendedor": "1",
+    "nombre_marca" : "Zapallos El Rodallo",
+    "descripcion":"Hacemos los mejores productos de Zapallo",
+    "direccion" : "siempreviva 123, La Cisterna",
+    "tipo_pago":"Transferencia",
+    "banco_cuenta":"Estado",
+    "tipo_cuenta":"rut",
+    "numero_cuenta" : "1234556",
+    "rut_cuenta":"12345"
+}
+
+###
+
 @app.route ('/productos/registro', methods = ['POST'])
 def productos_registro():
+
+    body = request.get_json()
+
     nuevo_producto = Producto()
     nuevo_producto.vendedor = body['vendedor']
     nuevo_producto.marca = body['marca']
@@ -130,7 +148,22 @@ def productos_registro():
     nuevo_producto.precio = body['precio']
     nuevo_producto.url_foto = body['url_foto']
 
+    db.session.add(nuevo_producto)
+    db.session.commit()
     return "Producto Registrado"
+
+
+         ###
+{
+"vendedor": "1",
+    "marca" : "1",
+    "nombre_producto" : "Pure de Zapallo",
+    "descripcion":"Piure de Zapallo dulce, 600 gr",
+    "precio":"10000",
+    "url_foto":"url_de_prueba"
+}
+
+###
 
 @app.route ('/recuperar_clave', methods = ['POST'])
 def recuperar_clave():    
