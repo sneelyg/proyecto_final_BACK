@@ -47,10 +47,15 @@ class Marca (db.Model):
     def serialize(self):
         return {
             "id": self.id,
+            "vendedor" : self.vendedor,
             "marca": self.nombre_marca,
             "descricpion":self.descripcion,
             "direccion":self.direccion,
-            "tipo_pago":self.tipo_pago
+            "tipo_pago":self.tipo_pago,
+            "banco":self.banco_cuenta,
+            "tipo_cuenta":self.tipo_cuenta,
+            "numero_cuenta":self.numero_cuenta,
+            "rut_cuenta":self.rut_cuenta
             # do not serialize the password, its a security breach
         }
 
@@ -72,6 +77,7 @@ class Producto (db.Model):
     def serialize(self):
         return {
             "id": self.id,
+            "vendedor":self.vendedor,
             "producto": self.nombre_producto,
             "marca": self.marca,
             "descricpion":self.descripcion,

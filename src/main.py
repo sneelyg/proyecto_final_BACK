@@ -57,6 +57,12 @@ def login():
             "token" : acceso,
             "tiempo" : expiracion.total_seconds()
         }  
+        ###Para Login
+    {
+"email": "santiagoneely@123.cl",
+    "password" : "123456"}
+        # 
+        # ###
 
 @app.route ('/registro', methods = ['POST'])
 def registro():
@@ -84,7 +90,7 @@ def registro():
         db.session.add(new_user)
         db.session.commit()
         return "Usuario Nuevo Creado" 
-###
+###Para registrar un usuario
 {
 "email": "santiagoneely@123.cl",
     "password" : "123456",
@@ -120,7 +126,7 @@ def marcas_registro():
         db.session.commit()
         return "Nueva Marca Creada " 
 
-        ###
+        ### Para crear una marca
 {
 "vendedor": "1",
     "nombre_marca" : "Zapallos El Rodallo",
@@ -153,7 +159,7 @@ def productos_registro():
     return "Producto Registrado"
 
 
-         ###
+         ### Para PRODUCTO
 {
 "vendedor": "1",
     "marca" : "1",
