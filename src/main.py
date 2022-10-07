@@ -207,7 +207,7 @@ def borrar_un_producto(id_producto):
         db.session.commit()
         return "Producto Eliminado"
     else :
-        raise APIException("Personaje no existe en favoritos", status_code=404 )
+        raise APIException("Producto no Existe, o ya ha sido eliminado", status_code=404 )
 
 
 
