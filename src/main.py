@@ -173,7 +173,18 @@ def productos_registro():
 
 @app.route ('/recuperar_clave', methods = ['POST'])
 def recuperar_clave():    
-    return "Recuperar Clave"
+    body = request.get_json()  #Esto hace que e lbody que envia la api sea leido como json.
+    existe_usuario = User.query.filter_by(email=body['email']).first() #Esto compara el "email"  que llegó desde el body con los de la tabla User.
+    if (existe_usuario is None): 
+        raise APIException("Ususario no existe en la base de datos", status_code=401)
+    else :
+        expiracion = datetime.timedelta(minutes=10)
+        acceso = create_access_token(identity= body['email'], expires_delta = expiracion)  
+        return {
+            "email" : body['email'],
+            "token" : acceso,
+            "tiempo" : expiracion.total_seconds()
+        }  
 
 
 @app.route('/marcas/<int:id_marca>', methods=['GET'])
