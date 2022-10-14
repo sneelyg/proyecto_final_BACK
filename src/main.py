@@ -11,7 +11,7 @@ from admin import setup_admin
 from models import db, User, Marca, Producto
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 import datetime
-#from models import Person
+# from models import Person
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -24,14 +24,19 @@ setup_admin(app)
 jwt = JWTManager(app)
 
 # Handle/serialize errors like a JSON object
+
+
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
     return jsonify(error.to_dict()), error.status_code
 
 # generate sitemap with all your endpoints
+
+
 @app.route('/')
 def sitemap():
     return generate_sitemap(app)
+
 
 @app.route('/user', methods=['GET'])
 def handle_hello():
@@ -43,31 +48,36 @@ def handle_hello():
     return jsonify(response_body), 200
 
 
-@app.route ('/login', methods = ['POST'])
+@app.route('/login', methods=['POST'])
 def login():
-    body = request.get_json()  #Esto hace que e lbody que envia la api sea leido como json.
-    one = User.query.filter_by(email=body['email'], password = body['password']).first() #Esto compara el "email" y "password" que llegó desde el body con los de la tabla User.
-    if (one is None): 
-        raise APIException("Ususario no existe o clave incorrecta", status_code=401)
-    else :
-        expiracion = datetime.timedelta(minutes=60)
-        acceso = create_access_token(identity= body['email'], expires_delta = expiracion)  
+    # Esto hace que e lbody que envia la api sea leido como json.
+    body = request.get_json()
+    # Esto compara el "email" y "password" que llegó desde el body con los de la tabla User.
+    one = User.query.filter_by(
+        email=body['email'], password=body['password']).first()
+    if (one is None):
+        raise APIException(
+            "Ususario no existe o clave incorrecta", status_code=401)
+    else:
+        expiracion = datetime.timedelta(minutes=600)
+        acceso = create_access_token(
+            identity=body['email'], expires_delta=expiracion)
         return {
-            "login" : "ok",
-            "token" : acceso,
-            "tiempo" : expiracion.total_seconds()
-        }  
-        ###Para Login
+            "login": "ok",
+            "token": acceso,
+            "tiempo": expiracion.total_seconds()
+        }
+"""Para Login
     {
 "email": "santiagoneely@123.cl",
-    "password" : "123456"}
+    "password" : "12345"}
         # 
-        # ###
+"""
 
 @app.route ('/registro', methods = ['POST'])
 def registro():
     body = request.get_json()
-    #Primero veo que usuario no exista
+    # Primero veo que usuario no exista
     existe_mail = User.query.filter_by(email = body['email']).first()
     if (existe_mail is  not None):
         return "El correo utilizado ya existe en la base de datos"
@@ -90,8 +100,8 @@ def registro():
         db.session.add(new_user)
         db.session.commit()
         return "Usuario Nuevo Creado" 
-###Para registrar un usuario
-{
+# Para registrar un usuario
+"""{
 "email": "santiagoneely@123.cl",
     "password" : "123456",
     "is_active" : "True",
@@ -99,13 +109,13 @@ def registro():
     "nombre":"Santi",
     "apellido":"neely",
     "rut":"12345"
-}
+}"""
 
 ###
 @app.route ('/marcas/registro', methods = ['POST'])
 def marcas_registro():
     body = request.get_json()
-    #Primero veo que usuario no exista
+    # Primero veo que usuario no exista
     existe_marca = Marca.query.filter_by(nombre_marca = body['nombre_marca']).first()
     if (existe_marca is  not None):
         return "El nombre de marca ya existe"
@@ -126,7 +136,7 @@ def marcas_registro():
         db.session.commit()
         return "Nueva Marca Creada " 
 
-        ### Para crear una marca
+"""       # Para crear una marca
 {
 "vendedor": "1",
     "nombre_marca" : "Zapallos El Rodallo",
@@ -139,7 +149,7 @@ def marcas_registro():
     "rut_cuenta":"12345"
 }
 
-###
+"""
 
 @app.route ('/productos/registro', methods = ['POST'])
 def productos_registro():
@@ -159,7 +169,7 @@ def productos_registro():
     return "Producto Registrado"
 
 
-         ### Para PRODUCTO
+"""
 {
 "vendedor": "1",
     "marca" : "1",
@@ -169,7 +179,7 @@ def productos_registro():
     "url_foto":"url_de_prueba"
 }
 
-###
+"""
 
 @app.route ('/recuperar_clave', methods = ['POST'])
 def recuperar_clave():    
