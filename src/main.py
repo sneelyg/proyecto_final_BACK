@@ -80,11 +80,26 @@ def registro():
     # Primero veo que usuario no exista
     existe_mail = User.query.filter_by(email = body['email']).first()
     if (existe_mail is  not None):
-        return "El correo utilizado ya existe en la base de datos"
+        return {
+            "registro": "not",
+            "message" : "El correo utilizado ya existe"
+        }
     
     existe_username = User.query.filter_by(username = body['username']).first()
     if (existe_username is  not None):
-        return "El nombre de usuario utilizado ya existe en la base de datos"
+        return {
+            "registro": "not",
+            "message" : "Nombre de Usuario  ya existe. Usuario no creado"
+        }
+
+    existe_rut = User.query.filter_by(rut = body['rut']).first()
+    if (existe_rut is  not None):
+        return {
+            "registro": "not",
+            "message" : "RUT ya existen, usuario no creado"
+        }
+
+
 
     else :
             
@@ -99,7 +114,9 @@ def registro():
 
         db.session.add(new_user)
         db.session.commit()
-        return "Usuario Nuevo Creado" 
+        return {
+            "registro": "ok"
+        }
 # Para registrar un usuario
 """{
 "email": "santiagoneely@123.cl",
