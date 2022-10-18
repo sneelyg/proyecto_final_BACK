@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User, Marca, Producto
+from models import db, User, Producto
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 import datetime
 # from models import Person
@@ -98,11 +98,7 @@ def registro():
             "registro": "not",
             "message" : "RUT ya existen, usuario no creado"
         }
-
-
-
-    else :
-            
+    else :     
         new_user = User()
         new_user.email = body['email']
         new_user.password = body['password']
@@ -111,6 +107,14 @@ def registro():
         new_user.nombre = body['nombre']
         new_user.apellido = body['apellido']
         new_user.rut = body['rut']
+        new_user.nombre_marca = body ['nombre_marca']
+        new_user.direccion = body ['direccion']
+        new_user.descripcion = body ['descripcion']
+        new_user.tipo_pago = body ['tipo_pago']
+        new_user.banco_cuenta = body ['banco_cuenta']
+        new_user.tipo_cuenta = body ['tipo_cuenta']
+        new_user.numero_cuenta = body ['numero_cuenta']
+
 
         db.session.add(new_user)
         db.session.commit()
@@ -125,37 +129,7 @@ def registro():
     "username":"Sneely",
     "nombre":"Santi",
     "apellido":"neely",
-    "rut":"12345"
-}"""
-
-###
-@app.route ('/marcas/registro', methods = ['POST'])
-def marcas_registro():
-    body = request.get_json()
-    # Primero veo que usuario no exista
-    existe_marca = Marca.query.filter_by(nombre_marca = body['nombre_marca']).first()
-    if (existe_marca is  not None):
-        return "El nombre de marca ya existe"
-
-    else:
-        new_marca = Marca()
-        new_marca.vendedor = body ['vendedor']
-        new_marca.nombre_marca = body ['nombre_marca']
-        new_marca.direccion = body ['direccion']
-        new_marca.descripcion = body ['descripcion']
-        new_marca.tipo_pago = body ['tipo_pago']
-        new_marca.banco_cuenta = body ['banco_cuenta']
-        new_marca.tipo_cuenta = body ['tipo_cuenta']
-        new_marca.numero_cuenta = body ['numero_cuenta']
-        new_marca.rut_cuenta = body ['rut_cuenta']
-
-        db.session.add(new_marca)
-        db.session.commit()
-        return "Nueva Marca Creada " 
-
-"""       # Para crear una marca
-{
-"vendedor": "1",
+    "rut":"12345",
     "nombre_marca" : "Zapallos El Rodallo",
     "descripcion":"Hacemos los mejores productos de Zapallo",
     "direccion" : "siempreviva 123, La Cisterna",
@@ -163,8 +137,6 @@ def marcas_registro():
     "banco_cuenta":"Estado",
     "tipo_cuenta":"rut",
     "numero_cuenta" : "1234556",
-    "rut_cuenta":"12345"
-}
 
 """
 
