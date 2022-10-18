@@ -123,7 +123,7 @@ def registro():
         }
 # Para registrar un usuario
 """{
-"email": "santiagoneely@123.cl",
+    "email": "santiagoneely@123.cl",
     "password" : "123456",
     "is_active" : "True",
     "username":"Sneely",
@@ -136,7 +136,8 @@ def registro():
     "tipo_pago":"Transferencia",
     "banco_cuenta":"Estado",
     "tipo_cuenta":"rut",
-    "numero_cuenta" : "1234556",
+    "numero_cuenta" : "1234556"
+    }
 
 """
 
