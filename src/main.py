@@ -78,6 +78,7 @@ def login():
 def registro():
     body = request.get_json()
     # Primero veo que usuario no exista
+    print (body)
     existe_mail = User.query.filter_by(email = body['email']).first()
     if (existe_mail is  not None):
         return {
@@ -145,6 +146,7 @@ def registro():
 def productos_registro():
 
     body = request.get_json()
+    print (body)
 
     nuevo_producto = Producto()
     nuevo_producto.vendedor = body['vendedor']
