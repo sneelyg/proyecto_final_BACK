@@ -32,6 +32,20 @@ def handle_invalid_usage(error):
 
 # generate sitemap with all your endpoints
 
+@app.route('/privada')
+@jwt_required()
+def privada():
+    mail_usuario = get_jwt_identity()
+    usuario = User.query.filter_by(email = mail_usuario).first()
+    if not (usuario is None):
+        print (usuario)
+        print("hola")
+    else:
+        print ("usuario no encontrado")
+    return jsonify({"success": "ok", "usuario": mail_usuario}), 200
+
+
+
 
 @app.route('/')
 def sitemap():
@@ -75,6 +89,7 @@ def login():
 """
 
 @app.route ('/registro', methods = ['POST'])
+
 def registro():
     body = request.get_json()
     # Primero veo que usuario no exista
@@ -143,7 +158,10 @@ def registro():
 """
 
 @app.route ('/productos/registro', methods = ['POST'])
+@jwt_required()
+
 def productos_registro():
+ 
 
     body = request.get_json()
     print (body)
