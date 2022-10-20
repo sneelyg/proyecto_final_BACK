@@ -11,6 +11,7 @@ from admin import setup_admin
 from models import db, User, Producto
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 import datetime
+from flask_mail import Mail, Message
 # from models import Person
 
 app = Flask(__name__)

@@ -50,7 +50,7 @@ class Producto (db.Model):
     vendedor = db.Column(db.Integer, db.ForeignKey('user.id'))
     nombre_producto = db.Column(db.String(250), unique=False, nullable=False)
     descripcion = db.Column(db.String(250), unique=False, nullable=False)
-    precio =  db.Column(db.Integer, unique=True, nullable=False)
+    precio =  db.Column(db.Integer, unique=False, nullable=False)
     url_foto = db.Column(db.String(250), unique=True, nullable=True)
     
     rel_user = db.relationship('User')
