@@ -199,13 +199,38 @@ def recuperar_clave():
     if (existe_usuario is None): 
         raise APIException("Ususario no existe en la base de datos", status_code=401)
     else :
-        expiracion = datetime.timedelta(minutes=10)
+        expiracion = datetime.timedelta(minutes=100)
         acceso = create_access_token(identity= body['email'], expires_delta = expiracion)  
+
+        
         return {
             "email" : body['email'],
             "token" : acceso,
             "tiempo" : expiracion.total_seconds()
         }  
+
+
+@app.route ('/cambiar/clave', methods = ['POST'])
+@jwt_required()
+def cambiar_clave():    
+    print("Cambiando Clave")
+    body = request.get_json()  #Esto hace que e lbody que envia la api sea leido como json.
+    usuario = User.query.filter_by(email=body['email']).first() #Esto compara el "email"  que llegó desde el body con los de la tabla User.
+    usuario.password = body['password']
+    db.session.commit()    
+    
+    if (usuario is None): 
+        raise APIException("Ususario no existe en la base de datos", status_code=401)
+    else :
+        expiracion = datetime.timedelta(minutes=10)
+        acceso = create_access_token(identity= body['email'], expires_delta = expiracion)  
+
+        
+        return {
+            "succes" : "ok",
+        } 
+
+
 
 
 @app.route('/marcas/<int:id_marca>', methods=['GET'])

@@ -39,7 +39,7 @@ class User(db.Model):
             "banco":self.banco_cuenta,
             "tipo_cuenta":self.tipo_cuenta,
             "numero_cuenta":self.numero_cuenta,
-            "rut_cuenta":self.rut_cuenta
+            "rut":self.rut
 
             # do not serialize the password, its a security breach
         }
