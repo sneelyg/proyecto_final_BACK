@@ -11,7 +11,7 @@ from admin import setup_admin
 from models import db, User, Producto
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 import datetime
-from flask_mail import Mail, Message
+"""from flask_mail import Mail, Message"""
 # from models import Person
 
 app = Flask(__name__)
@@ -192,7 +192,7 @@ def productos_registro():
 
 """
 
-@app.route ('/recuperar_clave', methods = ['POST'])
+@app.route ('/recuperar/clave', methods = ['POST'])
 def recuperar_clave():    
     body = request.get_json()  #Esto hace que e lbody que envia la api sea leido como json.
     existe_usuario = User.query.filter_by(email=body['email']).first() #Esto compara el "email"  que llegó desde el body con los de la tabla User.
