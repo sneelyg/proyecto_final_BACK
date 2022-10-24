@@ -11,7 +11,12 @@ from admin import setup_admin
 from models import db, User, Producto
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 import datetime
-"""from flask_mail import Mail, Message"""
+import messagebird
+import random
+import string
+import math
+
+
 # from models import Person
 
 app = Flask(__name__)
@@ -23,6 +28,7 @@ db.init_app(app)
 CORS(app)
 setup_admin(app)
 jwt = JWTManager(app)
+
 
 # Handle/serialize errors like a JSON object
 
@@ -196,17 +202,25 @@ def productos_registro():
 def recuperar_clave():    
     body = request.get_json()  #Esto hace que e lbody que envia la api sea leido como json.
     existe_usuario = User.query.filter_by(email=body['email']).first() #Esto compara el "email"  que llegó desde el body con los de la tabla User.
+    telefono = body['telefono']
     if (existe_usuario is None): 
         raise APIException("Ususario no existe en la base de datos", status_code=401)
     else :
         expiracion = datetime.timedelta(minutes=100)
         acceso = create_access_token(identity= body['email'], expires_delta = expiracion)  
+        x = random.random()
+        y=x*100000000
+        z=math.trunc(y)
+        existe_usuario.password=z
+        db.session.commit() 
+        sms(telefono, z )
+
 
         
+
         return {
             "email" : body['email'],
-            "token" : acceso,
-            "tiempo" : expiracion.total_seconds()
+            "nueva clave" : z,
         }  
 
 
@@ -215,17 +229,15 @@ def recuperar_clave():
 def cambiar_clave():    
     print("Cambiando Clave")
     body = request.get_json()  #Esto hace que e lbody que envia la api sea leido como json.
-    usuario = User.query.filter_by(email=body['email']).first() #Esto compara el "email"  que llegó desde el body con los de la tabla User.
-    usuario.password = body['password']
-    db.session.commit()    
-    
+    mail_usuario = get_jwt_identity()
+    usuario = User.query.filter_by(password = body['old_password'] , email=mail_usuario).first() #Esto compara el "email"  que llegó desde el body con los de la tabla User.
+   
     if (usuario is None): 
-        raise APIException("Ususario no existe en la base de datos", status_code=401)
+        raise APIException("Ususario no existe en la base de datos, o clave incorrecta", status_code=401)
     else :
-        expiracion = datetime.timedelta(minutes=10)
-        acceso = create_access_token(identity= body['email'], expires_delta = expiracion)  
-
-        
+        usuario.password = body['new_password']
+        db.session.commit()
+    
         return {
             "succes" : "ok",
         } 
@@ -268,9 +280,14 @@ def borrar_un_producto(id_producto):
 
 
 
-
-
-
+def sms(number, clave):
+    client = messagebird.Client("pA3SuFath8wM4iRHE750SCPSc")
+    message = client.message_create(
+              'TestMessage',
+              number,
+              clave,
+              { 'reference' : 'Foobar' }
+          )
 
 
 
