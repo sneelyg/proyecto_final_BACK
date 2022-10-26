@@ -213,6 +213,7 @@ def recuperar_clave():
         z=math.trunc(y)
         existe_usuario.password=z
         db.session.commit() 
+        print("Clave cambiada")
         sms(telefono, z )
 
 
@@ -278,14 +279,17 @@ def borrar_un_producto(id_producto):
     else :
         raise APIException("Producto no Existe, o ya ha sido eliminado", status_code=404 )
 
-
+###pA3SuFath8wM4iRHE750SCPSc  //Llave maca
+###
 
 def sms(number, clave):
-    client = messagebird.Client("pA3SuFath8wM4iRHE750SCPSc")
+    print("enviando mensaje")
+    mensaje = "Tu nueva contraseña es " + str(clave)
+    client = messagebird.Client("zGUQpKykxypfLuXSnbducTeoj")
     message = client.message_create(
               'TestMessage',
               number,
-              clave,
+              mensaje,
               { 'reference' : 'Foobar' }
           )
 
