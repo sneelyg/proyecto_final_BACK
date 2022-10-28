@@ -10,14 +10,14 @@ class User(db.Model):
     username = db.Column(db.String(120), unique=True, nullable=False)
     nombre = db.Column(db.String(120), unique=False, nullable=False)
     apellido = db.Column(db.String(120), unique=False, nullable=False)
-    rut = db.Column(db.Integer, unique=True, nullable=False)
+    rut = db.Column(db.String(100), unique=False, nullable=True)
     nombre_marca = db.Column(db.String(80), unique=True, nullable=False)
     direccion = db.Column(db.String(250), unique=False, nullable=False)
     descripcion = db.Column(db.String(250), unique=False, nullable=False)
     tipo_pago = db.Column(db.String(250), unique=False, nullable=False)
     banco_cuenta = db.Column(db.String(250), unique=False, nullable=True)
     tipo_cuenta = db.Column(db.String(50), unique=False, nullable=True)
-    numero_cuenta = db.Column(db.Integer, unique=True, nullable=True)
+    numero_cuenta = db.Column(db.Integer, unique=False, nullable=True)
     
 
 
