@@ -137,6 +137,7 @@ def registro():
         new_user.banco_cuenta = body ['banco_cuenta']
         new_user.tipo_cuenta = body ['tipo_cuenta']
         new_user.numero_cuenta = body ['numero_cuenta']
+        new_user.telefono = body ['telefono']
 
 
         db.session.add(new_user)

@@ -18,7 +18,7 @@ class User(db.Model):
     banco_cuenta = db.Column(db.String(250), unique=False, nullable=True)
     tipo_cuenta = db.Column(db.String(50), unique=False, nullable=True)
     numero_cuenta = db.Column(db.Integer, unique=False, nullable=True)
-    
+    telefono = db.Column(db.String(12), unique=False, nullable=False)
 
 
 
@@ -39,7 +39,8 @@ class User(db.Model):
             "banco":self.banco_cuenta,
             "tipo_cuenta":self.tipo_cuenta,
             "numero_cuenta":self.numero_cuenta,
-            "rut":self.rut
+            "rut":self.rut,
+            "telefono":self.telefono
 
             # do not serialize the password, its a security breach
         }
