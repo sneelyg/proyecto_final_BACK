@@ -52,7 +52,7 @@ class Producto (db.Model):
     nombre_producto = db.Column(db.String(250), unique=False, nullable=False)
     descripcion = db.Column(db.String(250), unique=False, nullable=False)
     precio =  db.Column(db.Integer, unique=False, nullable=False)
-    url_foto = db.Column(db.String(250), unique=True, nullable=True)
+    url_foto = db.Column(db.String(250), unique=False, nullable=True)
     
     rel_user = db.relationship('User')
    

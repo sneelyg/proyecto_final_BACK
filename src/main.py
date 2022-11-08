@@ -286,7 +286,7 @@ def borrar_un_producto(id_producto):
 def sms(number, clave):
     print("enviando mensaje")
     mensaje = "Tu nueva contraseña es " + str(clave)
-    client = messagebird.Client("bluuzeGZUGB6Pxsgbs99To7oG")
+    client = messagebird.Client("jYVEJbNy2HrchxysmH6xSgN26")
     message = client.message_create(
               'TestMessage',
               number,
